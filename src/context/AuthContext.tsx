@@ -281,22 +281,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         if (currentPath !== targetFirstLogin && !isRecoveryFlow) {
           navigate(targetFirstLogin, { replace: true });
         }
-        await fetchLideradoDashboardData(dbProfile.id);
       } else if (
         currentPath === "/login" ||
         currentPath === "/" ||
         (currentPath === "/set-new-password" && !isRecoveryFlow)
       ) {
         navigate(targetDashboard, { replace: true });
-      }
-
-      if (appProfile.role === "LIDER") {
-        await fetchTeamData(dbProfile.id);
-        setLideradoDashboardData(null);
-      } else if (appProfile.role === "LIDERADO") {
-        if (!appProfile.first_login) {
-          await fetchLideradoDashboardData(dbProfile.id);
-        }
       }
     };
 
@@ -353,7 +343,29 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return () => {
       authListener.subscription.unsubscribe();
     };
-  }, [navigate, location.pathname, fetchLideradoDashboardData, fetchTeamData]);
+  }, [navigate, isRecoveryFlow]);
+
+  useEffect(() => {
+    if (!profile || !profile.id_usuario) return;
+
+    const isLeader = profile.role === "LIDER";
+    const isLiderado = profile.role === "LIDERADO";
+    const onLeaderRoutes =
+      location.pathname.startsWith("/dashboard-lider") ||
+      location.pathname.startsWith("/team") ||
+      location.pathname.startsWith("/evaluation");
+    const onLideradoRoutes =
+      location.pathname.startsWith("/dashboard-liderado");
+
+    if (isLeader && onLeaderRoutes) {
+      fetchTeamData(Number(profile.id_usuario));
+      setLideradoDashboardData(null);
+    }
+
+    if (isLiderado && !profile.first_login && onLideradoRoutes) {
+      fetchLideradoDashboardData(Number(profile.id_usuario));
+    }
+  }, [profile, location.pathname, fetchTeamData, fetchLideradoDashboardData]);
 
   const saveEvaluation = async (input: SaveEvaluationInput) => {
     if (!session) {
