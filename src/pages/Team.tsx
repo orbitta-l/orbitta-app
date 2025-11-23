@@ -218,13 +218,25 @@ export default function Team() {
           <Label className="mb-2 block font-semibold text-foreground/80">Maturidade Geral</Label>
           <div className="flex flex-wrap gap-2">
             {filterOptions.maturities.map(m => (
-              <Button key={m} variant={activeFilters.maturity.includes(m) ? "default" : "outline"} size="sm" onClick={() => handleMaturityChange(m)}>{m}</Button>
+              <Button
+                key={m}
+                variant="outline"
+                size="sm"
+                className={`rounded-full border-primary ${activeFilters.maturity.includes(m) ? 'bg-primary-dark text-primary-foreground' : 'text-foreground'} text-xs px-3 py-1 transition-colors`}
+                onClick={() => handleMaturityChange(m)}
+              >
+                {m}
+              </Button>
             ))}
           </div>
         </div>
         <div>
           <Label className="mb-2 block font-semibold text-foreground/80">Área Específica</Label>
-          <Select value={activeFilters.category} onValueChange={(v) => handleSetFilter('category', v)}>
+          <Select value={activeFilters.category} onValueChange={(v) => {
+            handleSetFilter('category', v);
+            handleSetFilter('specialization', 'all');
+            handleSetFilter('competency', 'all');
+          }}>
             <SelectTrigger><SelectValue placeholder="Todas as áreas" /></SelectTrigger>
             <SelectContent>
               <SelectItem value="all">Todas as áreas</SelectItem>
@@ -235,7 +247,10 @@ export default function Team() {
         {activeFilters.category !== 'all' && (
           <div>
             <Label className="mb-2 block font-semibold text-foreground/80">Especialização</Label>
-            <Select value={activeFilters.specialization} onValueChange={(v) => handleSetFilter('specialization', v)} disabled={filterOptions.specializations.length === 0}>
+            <Select value={activeFilters.specialization} onValueChange={(v) => {
+              handleSetFilter('specialization', v);
+              handleSetFilter('competency', 'all');
+            }} disabled={filterOptions.specializations.length === 0}>
               <SelectTrigger><SelectValue placeholder="Todas especializações" /></SelectTrigger>
               <SelectContent>
                 <SelectItem value="all">Todas especializações</SelectItem>
@@ -260,7 +275,15 @@ export default function Team() {
           <Label className="mb-2 block font-semibold text-foreground/80">Idade</Label>
           <div className="flex flex-wrap gap-2">
             {filterOptions.ageRanges.map(age => (
-              <Button key={age} variant={activeFilters.age === age ? "default" : "outline"} size="sm" onClick={() => handleSetFilter('age', activeFilters.age === age ? 'all' : age)}>{age}</Button>
+              <Button
+                key={age}
+                variant="outline"
+                size="sm"
+                className={`rounded-full border-primary ${activeFilters.age === age ? 'bg-primary-dark text-primary-foreground' : 'text-foreground'} text-xs px-3 py-1`}
+                onClick={() => handleSetFilter('age', activeFilters.age === age ? 'all' : age)}
+              >
+                {age}
+              </Button>
             ))}
           </div>
         </div>
@@ -269,7 +292,18 @@ export default function Team() {
           <div className="flex flex-wrap gap-2">
             {filterOptions.genders.map(gender => {
               const Icon = getGenderIcon(gender);
-              return <Button key={gender} variant={activeFilters.gender === gender ? "default" : "outline"} size="sm" onClick={() => handleSetFilter('gender', activeFilters.gender === gender ? 'all' : gender)} className="gap-2"><Icon className="w-4 h-4" />{gender}</Button>
+              return (
+                <Button
+                  key={gender}
+                  variant="outline"
+                  size="sm"
+                  className={`rounded-full border-primary ${activeFilters.gender === gender ? 'bg-primary-dark text-primary-foreground' : 'text-foreground'} text-xs px-3 py-1 gap-2`}
+                  onClick={() => handleSetFilter('gender', activeFilters.gender === gender ? 'all' : gender)}
+                >
+                  <Icon className="w-4 h-4" />
+                  {gender}
+                </Button>
+              );
             })}
           </div>
         </div>
