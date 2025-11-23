@@ -30,6 +30,61 @@ const AGE_RANGES: Record<string, { min: number, max: number }> = {
 export function useTeamFilters(teamData: LideradoDashboard[], searchName: string) {
   const [activeFilters, setActiveFilters] = useState<ActiveFilters>(initialFilters);
 
+  // Mapas para evitar recomputação pesada a cada filtro
+  const categoryList = useMemo(
+    () => technicalTemplate.map(c => ({ id: c.id_categoria, name: c.nome_categoria })),
+    []
+  );
+  const categoryNameById = useMemo(
+    () => new Map(categoryList.map(c => [c.id, c.name])),
+    [categoryList]
+  );
+  const specializationMap = useMemo(() => {
+    const map = new Map<string, { id: string; name: string }[]>();
+    technicalTemplate.forEach(cat => {
+      map.set(
+        cat.id_categoria,
+        cat.especializacoes.map((s) => ({
+          id: s.id_especializacao,
+          name: s.nome_especializacao,
+        })),
+      );
+    });
+    return map;
+  }, []);
+  const specializationNameById = useMemo(() => {
+    const map = new Map<string, string>();
+    technicalTemplate.forEach(cat => {
+      cat.especializacoes.forEach(s => {
+        map.set(s.id_especializacao, s.nome_especializacao);
+      });
+    });
+    return map;
+  }, []);
+  const competencyMap = useMemo(() => {
+    const map = new Map<string, { id: string; name: string }[]>();
+    technicalTemplate.forEach(cat => {
+      cat.especializacoes.forEach(s => {
+        map.set(
+          s.id_especializacao,
+          s.competencias.map(comp => ({ id: comp.id_competencia, name: comp.nome_competencia })),
+        );
+      });
+    });
+    return map;
+  }, []);
+  const competencyNameById = useMemo(() => {
+    const map = new Map<string, string>();
+    technicalTemplate.forEach(cat => {
+      cat.especializacoes.forEach(s => {
+        s.competencias.forEach(comp => {
+          map.set(comp.id_competencia, comp.nome_competencia);
+        });
+      });
+    });
+    return map;
+  }, []);
+
   const resetFilters = useCallback(() => {
     setActiveFilters(initialFilters);
   }, []);
@@ -77,15 +132,13 @@ export function useTeamFilters(teamData: LideradoDashboard[], searchName: string
 
       if (ultima_avaliacao) {
         const categoryName = category !== 'all'
-          ? technicalTemplate.find(c => c.id_categoria === category)?.nome_categoria
+          ? categoryNameById.get(category)
           : 'all';
-        
         const specializationName = specialization !== 'all'
-          ? technicalTemplate.flatMap(c => c.especializacoes).find(s => s.id_especializacao === specialization)?.nome_especializacao
+          ? specializationNameById.get(specialization)
           : 'all';
-
         const competencyName = competency !== 'all'
-          ? technicalTemplate.flatMap(c => c.especializacoes).flatMap(s => s.competencias).find(comp => comp.id_competencia === competency)?.nome_competencia
+          ? competencyNameById.get(competency)
           : 'all';
 
         if (categoryName && categoryName !== 'all' && !competencias.some(c => c.categoria_nome === categoryName)) return false;
@@ -120,7 +173,7 @@ export function useTeamFilters(teamData: LideradoDashboard[], searchName: string
         }
       });
     } else if (specialization !== 'all') {
-      const specializationName = technicalTemplate.flatMap(c => c.especializacoes).find(s => s.id_especializacao === specialization)?.nome_especializacao;
+      const specializationName = specializationNameById.get(specialization);
       if (specializationName) {
         members.forEach(member => {
           const relevantCompetencies = member.competencias.filter(c => c.especializacao_nome === specializationName);
@@ -135,7 +188,7 @@ export function useTeamFilters(teamData: LideradoDashboard[], searchName: string
         });
       }
     } else if (category !== 'all') {
-      const categoryName = technicalTemplate.find(c => c.id_categoria === category)?.nome_categoria;
+      const categoryName = categoryNameById.get(category);
       if (categoryName) {
         members.forEach(member => {
           const relevantCompetencies = member.competencias.filter(c => c.categoria_nome === categoryName);
@@ -169,29 +222,25 @@ export function useTeamFilters(teamData: LideradoDashboard[], searchName: string
   }, [teamData, searchName, activeFilters]);
 
   const filterOptions = useMemo(() => {
-    const allCategories = technicalTemplate.map(c => ({ id: c.id_categoria, name: c.nome_categoria }));
-    
-    const specializations = activeFilters.category !== 'all'
-      ? technicalTemplate.find(c => c.id_categoria === activeFilters.category)?.especializacoes.map(s => ({ id: s.id_especializacao, name: s.nome_especializacao })) || []
-      : [];
+    const specializations =
+      activeFilters.category !== 'all'
+        ? specializationMap.get(activeFilters.category) || []
+        : [];
 
-    const competencies = activeFilters.specialization !== 'all'
-      ? technicalTemplate.flatMap(c => 
-          c.especializacoes
-            .filter(s => s.id_especializacao === activeFilters.specialization)
-            .flatMap(s => s.competencias.map(comp => ({ id: comp.id_competencia, name: comp.nome_competencia })))
-        )
-      : [];
+    const competencies =
+      activeFilters.specialization !== 'all'
+        ? competencyMap.get(activeFilters.specialization) || []
+        : [];
 
     return {
-      categories: allCategories,
+      categories: categoryList,
       specializations,
       competencies,
       ageRanges: Object.keys(AGE_RANGES),
       genders: ['FEMININO', 'MASCULINO', 'NAO_BINARIO', 'NAO_INFORMADO'] as SexoTipo[],
       maturities: ['M1', 'M2', 'M3', 'M4'] as NivelMaturidade[],
     };
-  }, [activeFilters.category, activeFilters.specialization]);
+  }, [activeFilters.category, activeFilters.specialization, categoryList, specializationMap, competencyMap]);
 
   return {
     activeFilters,

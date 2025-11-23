@@ -33,6 +33,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   BookOpen,
+  Calendar as CalendarIcon,
   ClipboardCheck,
   Filter,
   Lightbulb,
@@ -410,6 +411,54 @@ export default function DashboardLiderado() {
                 </div>
               </CardContent>
             </Card>
+
+            <div className="grid gap-4 md:grid-cols-3">
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <Target className="w-5 h-5 text-primary" />Maturidade Atual
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-3xl font-bold text-foreground">
+                    {lideradoDashboardData?.ultima_avaliacao?.maturidade_quadrante || "N/A"}
+                  </p>
+                  <p className="text-sm text-muted-foreground">{lideradoDashboardData?.cargo_nome || "Cargo"}</p>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <BookOpen className="w-5 h-5 text-accent" />Competências Avaliadas
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-3xl font-bold text-foreground">
+                    {lideradoDashboardData?.competencias.length || 0}
+                  </p>
+                  <p className="text-sm text-muted-foreground">total de avaliações registradas</p>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <CalendarIcon className="w-5 h-5 text-primary" />Última Avaliação
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-xl font-bold text-foreground">
+                    {lideradoDashboardData?.ultima_avaliacao?.data_avaliacao
+                      ? formatDistanceToNow(lideradoDashboardData.ultima_avaliacao.data_avaliacao, { addSuffix: true, locale: ptBR })
+                      : "N/A"}
+                  </p>
+                  <p className="text-sm text-muted-foreground">
+                    {lideradoDashboardData?.ultima_avaliacao?.data_avaliacao
+                      ? lideradoDashboardData.ultima_avaliacao.data_avaliacao.toLocaleDateString("pt-BR")
+                      : ""}
+                  </p>
+                </CardContent>
+              </Card>
+            </div>
 
             <div className="grid gap-6">
               <Card>
