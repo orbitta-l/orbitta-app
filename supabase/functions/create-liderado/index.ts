@@ -1,6 +1,5 @@
-// deno-lint-ignore-file no-explicit-any
 import { serve } from "https://deno.land/std@0.224.0/http/server.ts";
-import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.0"; // Versão atualizada
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.0"; 
 
 // Tipos para clareza e segurança
 type Sexo = "MASCULINO" | "FEMININO" | "OUTRO" | "NAO_BINARIO" | "NAO_INFORMADO";
@@ -118,7 +117,7 @@ serve(async (req) => {
       return Response.json({ error: "E-mail já cadastrado no sistema." }, { status: 409, headers: corsHeaders });
     }
 
-    // Verifica se o e-mail já existe no sistema de autenticação (auth.users)
+    
     console.log("Verificando se o e-mail já está cadastrado no auth.users...");
     // ALTERAÇÃO AQUI: Substituindo admin.auth.admin.getUserByEmail por uma consulta direta
     const { data: existingAuthUser, error: existingAuthUserError } = await admin

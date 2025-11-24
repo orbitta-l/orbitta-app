@@ -17,7 +17,6 @@ O sistema trabalha em um ciclo completo:
 - Primeira avaliação;
 - Alimentação automática dos gráficos e painéis da Home.
 
----
 
 ## 2. Arquitetura e Organização de Projeto
 

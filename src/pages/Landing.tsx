@@ -7,10 +7,7 @@ import Navbars from "@/components/Navbar"
 
 export default function Landing() {
   const navigate = useNavigate();
-  // Removidos currentLeaderIndex e currentEmployeeIndex, pois Features gerencia seu próprio estado
-  // e os arrays leaderFeatures e employeeFeatures não são mais definidos aqui.
 
-  // scroll listener removed as `isScrolled` state was unused
 
   useEffect(() => {
     const starContainer = document.getElementById('stars');
@@ -35,13 +32,7 @@ export default function Landing() {
     }
   }, []);
 
-  // Os arrays leaderFeatures e employeeFeatures foram removidos daqui,
-  // pois o componente Features já os define internamente.
 
-  // As funções prevLeader, nextLeader, prevEmployee, nextEmployee foram removidas,
-  // pois não são mais necessárias aqui.
-
-  // A definição interna de Navbar foi removida, pois o componente Navbars já é importado.
   
   return (
     <div>
