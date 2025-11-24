@@ -1,4 +1,5 @@
 import { useState, useEffect, FormEvent } from "react";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/context/AuthContext";
 import { useToast } from "@/hooks/use-toast";
 import { Input } from "@/components/ui/input";
@@ -9,6 +10,8 @@ import { supabase } from "@/lib/supabaseClient";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogTrigger, DialogClose } from "@/components/ui/dialog";
 import { MailCheck } from "lucide-react";
 import "./LoginPage.css";
+import { getCurrentSession } from "@/services/authService";
+import { getMyProfileRow } from "@/services/userService";
 
 // === Fundo animado de estrelas (sem alterações) ===
 function StarsBackground() {
@@ -61,6 +64,7 @@ function StarsBackground() {
 function RightPanel() {
   const { login } = useAuth();
   const { toast } = useToast();
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [resetEmail, setResetEmail] = useState("");
@@ -74,18 +78,51 @@ function RightPanel() {
     setIsLoading(true);
     try {
       const { success } = await login(email, password);
-      if (success) {
-        toast({
-          title: "Login realizado com sucesso!",
-          description: "Redirecionando para seu dashboard...",
-        });
-      } else {
+      if (!success) {
         toast({
           variant: "destructive",
           title: "Erro ao fazer login",
           description: "Email ou senha incorretos. Tente novamente.",
         });
+        return;
       }
+
+      const { session } = await getCurrentSession();
+      if (!session) {
+        toast({
+          variant: "destructive",
+          title: "Erro ao obter sessão",
+          description: "Tente entrar novamente.",
+        });
+        return;
+      }
+
+      const { data: profileData, error } = await getMyProfileRow();
+      if (error || !profileData) {
+        toast({
+          variant: "destructive",
+          title: "Erro ao carregar perfil",
+          description:
+            "Não foi possível carregar seus dados. Fale com o suporte.",
+        });
+        return;
+      }
+
+      const role = (profileData as any).role;
+      const firstLogin = (profileData as any).first_login;
+
+      if (firstLogin && role === "LIDERADO") {
+        navigate("/set-new-password", { replace: true });
+      } else if (role === "LIDER") {
+        navigate("/dashboard-lider", { replace: true });
+      } else {
+        navigate("/dashboard-liderado", { replace: true });
+      }
+
+      toast({
+        title: "Login realizado com sucesso!",
+        description: "Redirecionando para seu dashboard...",
+      });
     } catch (error) {
       toast({
         variant: "destructive",
