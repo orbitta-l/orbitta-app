@@ -1,36 +1,24 @@
-
-[ORBITTA Logo](public/logobr.png)
+<img width="3743" height="1070" alt="Image" src="https://github.com/user-attachments/assets/2c7fb0e1-db8f-4b9c-89f6-04ce2a6c3deb" />
 
 > **Transformando gestão em liderança estratégica.** Uma plataforma digital que alinha líderes e liderados, fornecendo clareza sobre o desempenho atual e um plano de voo para o próximo nível.
 
+---
+
 O Orbitta é uma ferramenta de gestão de talentos projetada para líderes que desejam acompanhar e impulsionar o desenvolvimento técnico e comportamental de suas equipes. Consolidamos avaliações de competências em indicadores visuais de maturidade e evolução, auxiliando a tomada de decisão e o planejamento de desenvolvimento individual e coletivo.
 
-O objetivo da Orbitta é auxiliar na avaliação e visualização de dados de maneira eficaz, por meio de gráficos dinâmicos e interativos. A plataforma extrai de forma inteligente os aspectos relativos às competências da equipe para organizar, direcionar e auxiliar o líder técnico no mapeamento, acompanhamento e desenvolvimento contínuo de seus colaboradores.
+| FUNCIONALIDADES | DESCRIÇÃO
+------------ | -------------
+`Painel de Maturidade da Equipe` | `Oferece ao líder uma visão macro e instantânea da distribuição de maturidade de toda a sua equipe.`
+`Comparador de Perfil (“VERSUS”)` | `Compara visualmente as competências atuais do liderado com o perfil ideal esperado para seu cargo.`
+`Gráfico de Gap de Conhecimento` | `Detalha as lacunas e pontos fortes específicos de cada colaborador, servindo de base para planos de ação.`
+`Avaliação por Competências` | `Dá ao líder técnico a possibilidade de avaliar as competências técnicas e comportamentais de cada liderado.`
+`Banco de Talentos` | `Promove a retenção de talentos e a visualização do liderado mai adequado para assumir aquela determinada função proposta`
 
-A solução foi criada para mitigar a lacuna de ferramentas que se concentram apenas em tarefas e automação de gestão de projetos sob perspectivas generalistas, sendo capaz de transformar dados em insights objetivos que auxiliem na gestão de competências em projetos de tecnologia. 
-Alertas são uma extensão Markdown baseada na sintaxe blockquote que você pode usar para enfatizar informações críticas. Eles são exibidos com cores e ícones distintos para indicar a importância do conteúdo.
-
-> [!NOTE]
-> Useful information that users should know, even when skimming content.
-
-> [!TIP]
-> Helpful advice for doing things better or more easily.
-
-> [!IMPORTANT]
-> Key information users need to know to achieve their goal.
-
-> [!WARNING]
-> Urgent info that needs immediate user attention to avoid problems.
-
-> [!CAUTION]
-> Advises about risks or negative outcomes of certain actions.
-
-### ✨ Principais Funcionalidades
-
-*   **📊 Dashboard do Líder:** Tenha uma visão 360° da sua equipe, com métricas de maturidade, distribuição de competências e gaps de conhecimento.
-*   **🗺️ Matriz de Maturidade:** Visualize o posicionamento de cada liderado em uma matriz de desempenho técnico vs. comportamental (M1 a M4).
-*   **🎯 Avaliação de Competências:** Realize avaliações completas baseadas em templates de cargos, com feedback visual em tempo real através de gráficos de radar.
-*   **🚀 Plano de Voo do Liderado:** Ofereça ao seu liderado um dashboard claro sobre seu progresso, pontos fortes e o que é necessário para alcançar o próximo nível de carreira.
+### 💡 Fundamentação e Metodologia
+A Plataforma Orbitta integra diversas teorias de gestão para formar um sistema robusto. As três principais bases metodológicas são:
+* **Gestão de Competências:** A funcionalidade central da Orbitta, inspirada nos conceitos de Fleury e Fleury (2001) e Spencer e Spencer (1993), permite mapear conhecimentos, habilidades e atitudes (Conhecimento, Habilidade, Atitude) de cada colaborador. Isso se traduz em trilhas personalizadas de desenvolvimento e feedbacks estruturados.
+* **Liderança Situacional:** Baseada em Hersey e Blanchard (1998), a plataforma aplica este conceito por meio de dashboards de maturidade que refletem o nível de autonomia e competência do liderado, sugerindo estilos de liderança adequados em tempo real.
+* **Metodologias Ágeis:** A estrutura da plataforma é orientada por princípios ágeis (Schwaber e Sutherland, 2020; Beck et al., 2001), promovendo autonomia, ciclos curtos de feedback e colaboração contínua.
 
 
 
@@ -46,27 +34,3 @@ Este projeto foi construído com um conjunto de tecnologias modernas, focando em
 *   **Visualização de Dados:** Recharts
 *   **Ícones:** Lucide React
 
----
-
-### 🚀 Começando
-
-Siga os passos abaixo para configurar e rodar o projeto em seu ambiente local.
-
-#### **1. Pré-requisitos**
-
-*   Você precisa ter o [Bun](https://bun.sh/) instalado em sua máquina.
-
-#### **2. Clonando o Repositório**
-
-```bash
-git clone https://github.com/seu-usuario/orbitta.git
-cd orbitta
-```
-
-#### **3. Instalando as Dependências**
-
-Com o Bun, a instalação é simples e rápida:
-
-```bash
-bun install
-```
