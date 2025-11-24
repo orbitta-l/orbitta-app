@@ -5,7 +5,25 @@
 
 O Orbitta é uma ferramenta de gestão de talentos projetada para líderes que desejam acompanhar e impulsionar o desenvolvimento técnico e comportamental de suas equipes. Consolidamos avaliações de competências em indicadores visuais de maturidade e evolução, auxiliando a tomada de decisão e o planejamento de desenvolvimento individual e coletivo.
 
+O objetivo da Orbitta é auxiliar na avaliação e visualização de dados de maneira eficaz, por meio de gráficos dinâmicos e interativos. A plataforma extrai de forma inteligente os aspectos relativos às competências da equipe para organizar, direcionar e auxiliar o líder técnico no mapeamento, acompanhamento e desenvolvimento contínuo de seus colaboradores.
 
+A solução foi criada para mitigar a lacuna de ferramentas que se concentram apenas em tarefas e automação de gestão de projetos sob perspectivas generalistas, sendo capaz de transformar dados em insights objetivos que auxiliem na gestão de competências em projetos de tecnologia. 
+Alertas são uma extensão Markdown baseada na sintaxe blockquote que você pode usar para enfatizar informações críticas. Eles são exibidos com cores e ícones distintos para indicar a importância do conteúdo.
+
+> [!NOTE]
+> Useful information that users should know, even when skimming content.
+
+> [!TIP]
+> Helpful advice for doing things better or more easily.
+
+> [!IMPORTANT]
+> Key information users need to know to achieve their goal.
+
+> [!WARNING]
+> Urgent info that needs immediate user attention to avoid problems.
+
+> [!CAUTION]
+> Advises about risks or negative outcomes of certain actions.
 
 ### ✨ Principais Funcionalidades
 
